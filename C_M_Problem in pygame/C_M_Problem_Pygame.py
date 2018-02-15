@@ -5,9 +5,9 @@ pygame.init()
 size = width,height = 1200, 670
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Missionaries and Cannibals Problem")
-myfont = pygame.font.SysFont('Comic Sans MS', 30)
+myfont = pygame.font.SysFont('Comic Sans MS', 24)
 
-Back_color = 220, 255, 255
+Back_color = 235, 255, 255
 red = (255,0,0)
 blue = (0,0,255)
 FPS = 1
@@ -84,7 +84,7 @@ while True:
         #print("Invalid Condition")
         continue
     if (current_state == final_state):
-        print("Solution")
+        # print("Solution")
         done = True
         break
 
@@ -138,11 +138,11 @@ while True:
 def draw(node):
     if len(node.children) > 0:
         for i in range(len(node.children)):
-            x_pos, y_pos = node.x_pos + 90, (node.y_pos + i * 75 if node.y_pos + i * 75 < height else node.y_pos - i * 75)
+            x_pos, y_pos = node.x_pos + 90, node.y_pos + (i-len(node.children)/2) * 90
             node.children[i].setPos(x_pos,y_pos)
             pygame.draw.line(screen,blue,(node.x_pos,node.y_pos),(x_pos,y_pos),1)
-            pygame.draw.circle(screen,red,(x_pos,y_pos),10)
-            textSurface = myfont.render(str(node.children[i].m_state) + "," + str(node.children[i].c_state) + "," + str(node.children[i].boat_state),False,(0,1,0))
+            pygame.draw.circle(screen,red,(x_pos,y_pos),10,9)
+            textSurface = myfont.render("(" + str(node.children[i].m_state) + "," + str(node.children[i].c_state) + "," + str(node.children[i].boat_state) + ")",False,(0,1,0))
             screen.blit(textSurface,(x_pos-textSurface.get_width()/2 , y_pos + textSurface.get_height()/2))
             draw(node.children[i])
 
@@ -151,9 +151,9 @@ while True:
     fpsClock.tick(FPS)
 
 #   Draw root node in the screen
-    nodes[0].setPos(75,20)
+    nodes[0].setPos(75,height/2)
     pygame.draw.circle(screen,red,(nodes[0].x_pos,nodes[0].y_pos),10)
-    textSurface = myfont.render(str(nodes[0].m_state) + "," + str(nodes[0].c_state) + "," + str(nodes[0].boat_state),False,(0,1,0))
+    textSurface = myfont.render("(" + str(nodes[0].m_state) + "," + str(nodes[0].c_state) + "," + str(nodes[0].boat_state) + ")",False,(0,1,0))
     screen.blit(textSurface,(nodes[0].x_pos-textSurface.get_width()/2 , nodes[0].y_pos + textSurface.get_height()/2))
     draw(nodes[0])
 
